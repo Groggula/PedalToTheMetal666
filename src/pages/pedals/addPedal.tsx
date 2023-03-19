@@ -17,10 +17,9 @@ const addPedalPage: React.FC = () => {
         </Flex>
       )}
       <>
-        <Flex bg="white" color="black">
+        <Flex bg="#192734" color="brand.200">
           <Text>Add options for filter pedals / sort by</Text>
         </Flex>
-        <AdminPanel />
       </>
     </PageContent>
   );

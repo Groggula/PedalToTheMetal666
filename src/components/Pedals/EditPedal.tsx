@@ -4,7 +4,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { firestore, storage } from "@/src/firebase/config";
 import useSelectFile from "@/src/hooks/useSelectFile";
 import CreatePedal, { formTabs } from "./CreatePedal";
-import { Flex, Alert, AlertIcon, Text } from "@chakra-ui/react";
+import { Flex, Alert, AlertIcon, Text, Button } from "@chakra-ui/react";
 import ImageUpload from "./PedalForm.tsx/ImageUpload";
 import TabItem from "./TabItem";
 import InputFields from "./PedalForm.tsx/InputFields";

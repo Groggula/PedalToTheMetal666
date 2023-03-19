@@ -17,8 +17,7 @@ const PedalsPage: React.FC<PedalsPageProps> = () => {
     <PageContent>
       <Pedals />
       <>
-        {user && <AdminPanel />}
-        <Flex mt={2} borderRadius={2} bg="#192734" color="brand.200">
+        <Flex mt={0} borderRadius={2} bg="#192734" color="brand.200">
           <Text>Add options for filter pedals / sort by</Text>
         </Flex>
       </>

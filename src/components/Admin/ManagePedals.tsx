@@ -1,15 +1,27 @@
-import { Pedal, pedalState } from "@/src/atoms/pedalsAtom";
-import { auth, firestore } from "@/src/firebase/config";
-import { Wrap } from "@chakra-ui/react";
+import { pedalState, Pedal } from "@/src/atoms/pedalsAtom";
+import { firestore } from "@/src/firebase/config";
+import {
+  Box,
+  Flex,
+  Stack,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Tfoot,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
-import { fetchPedals } from "./fetchPedals";
-import PedalItem from "./PedalItem";
 
-const Pedals: React.FC = () => {
-  const [user] = useAuthState(auth);
+type ManagePedalsProps = {};
+
+const ManagePedals: React.FC<ManagePedalsProps> = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [pedals, setPedals] = useRecoilState(pedalState);
@@ -42,11 +54,28 @@ const Pedals: React.FC = () => {
   }, []);
 
   return (
-    <Wrap p={2}>
-      {pedals.pedals.map((item) => (
-        <PedalItem key={item.id} pedal={item} loading={loading} />
-      ))}
-    </Wrap>
+    <Flex justify="center">
+      <Table
+        size="sm"
+        variant="simple"
+        maxWidth="60%"
+        style={{
+          borderCollapse: "separate",
+          borderSpacing: "0 5px",
+        }}
+      >
+        <Tbody>
+          {pedals.pedals.map((item) => (
+            <Tr key={item.id} bg="#22303c" _hover={{ background: "#15202B" }}>
+              <Td border="none">{item.title}</Td>
+              <Td border="none" isNumeric>
+                Edit | Delete
+              </Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </Flex>
   );
 };
-export default Pedals;
+export default ManagePedals;
