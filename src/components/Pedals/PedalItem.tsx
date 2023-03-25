@@ -16,13 +16,13 @@ const PedalItem: React.FC<PedalItemProps> = ({ pedal, loading }) => {
   const [selectedPedalState, setSelectedPedalState] =
     useRecoilState(pedalState);
 
-  const handleEdit = (pedal: Pedal) => {
-    setSelectedPedalState((prev) => ({
-      ...prev,
-      selectedPedalState: pedal,
-    }));
-    router.push(`/pedals/${pedal.id}/editPedal`);
-  };
+  // const handleEdit = (pedal: Pedal) => {
+  //   setSelectedPedalState((prev) => ({
+  //     ...prev,
+  //     selectedPedalState: null,
+  //   }));
+  //   router.push(`/pedals/${pedal.id}/editPedal`);
+  // };
 
   return (
     <>
@@ -57,17 +57,17 @@ const PedalItem: React.FC<PedalItemProps> = ({ pedal, loading }) => {
               </Text>
             </Link>
             <Flex justify="center" pt={5} gap="2">
-              <Button height="35px" width="100px">
-                Add
+              <Button height="35px" width="120px">
+                Add to collection
               </Button>
-              <Button
+              {/* <Button
                 onClick={() => handleEdit(pedal)}
                 variant="danger"
                 height="35px"
                 width="100px"
               >
                 Edit
-              </Button>
+              </Button> */}
             </Flex>
           </Stack>
         </Flex>

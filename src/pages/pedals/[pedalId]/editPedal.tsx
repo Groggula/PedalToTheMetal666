@@ -1,10 +1,8 @@
 import { Pedal, pedalState } from "@/src/atoms/pedalsAtom";
-import AdminPanel from "@/src/components/Admin/AdminPanel";
 import PageContent from "@/src/components/Layout/PageContent";
-import EditPedal from "@/src/components/Pedals/EditPedal";
-import InputFields from "@/src/components/Pedals/PedalForm.tsx/InputFields";
+import EditPedal from "@/src/components/Admin/EditPedal";
 import { auth, firestore } from "@/src/firebase/config";
-import { Box, Flex, Skeleton, SkeletonText, Text } from "@chakra-ui/react";
+import { Box, Flex, SkeletonText } from "@chakra-ui/react";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";

@@ -5,9 +5,9 @@ import { firestore, storage } from "@/src/firebase/config";
 import useSelectFile from "@/src/hooks/useSelectFile";
 import CreatePedal, { formTabs } from "./CreatePedal";
 import { Flex, Alert, AlertIcon, Text, Button } from "@chakra-ui/react";
-import ImageUpload from "./PedalForm.tsx/ImageUpload";
-import TabItem from "./TabItem";
-import InputFields from "./PedalForm.tsx/InputFields";
+import ImageUpload from "../Pedals/PedalForm.tsx/ImageUpload";
+import TabItem from "../Pedals/TabItem";
+import InputFields from "../Pedals/PedalForm.tsx/InputFields";
 import { useRouter } from "next/router";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 
@@ -58,6 +58,8 @@ const EditPedal: React.FC<EditPedalProps> = ({ pedal }) => {
           image: downloadURL,
         });
       }
+      // add code for updating state before pushing to page
+      //
       router.push("/pedals");
     } catch (error: any) {
       console.log("handleEditPedal error", error.message);

@@ -60,7 +60,7 @@ const InputFields: React.FC<InputFieldsProps> = ({
   const router = useRouter();
 
   const handleCancel = () => {
-    router.push("/pedals");
+    router.back();
   };
 
   return (

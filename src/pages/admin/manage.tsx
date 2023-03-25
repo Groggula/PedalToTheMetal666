@@ -1,21 +1,31 @@
+import { authModalState } from "@/src/atoms/authModalAtom";
 import ManagePedals from "@/src/components/Admin/ManagePedals";
 import ManageUsers from "@/src/components/Admin/ManageUsers";
 import PageContent from "@/src/components/Layout/PageContent";
+import { auth } from "@/src/firebase/config";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useSetRecoilState } from "recoil";
 
 type ManagePageProps = {
-  showUserList: boolean;
-  showPedalList: boolean;
+  // showUserList: boolean;
+  // showPedalList: boolean;
 };
 
-const ManagePage: React.FC<ManagePageProps> = ({
-  showPedalList,
-  showUserList,
-}) => {
+const ManagePage: React.FC<ManagePageProps> = () => {
+  const [user] = useAuthState(auth);
+  const setAuthModalState = useSetRecoilState(authModalState);
   return (
     <PageContent>
-      {!showPedalList && <ManagePedals />}
-      {showUserList && <ManageUsers />}
+      <>
+        {user ? (
+          <ManagePedals />
+        ) : (
+          // showUserList && <ManageUsers />
+          setAuthModalState({ open: true, view: "login" })
+        )}
+      </>
+      <></>
     </PageContent>
   );
 };

@@ -1,30 +1,29 @@
 import { pedalState, Pedal } from "@/src/atoms/pedalsAtom";
-import { firestore } from "@/src/firebase/config";
+import { firestore, storage } from "@/src/firebase/config";
+import { SearchIcon } from "@chakra-ui/icons";
 import {
-  Box,
+  Button,
   Flex,
-  Stack,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Table,
-  TableCaption,
-  TableContainer,
   Tbody,
   Td,
-  Text,
-  Tfoot,
-  Th,
-  Thead,
   Tr,
 } from "@chakra-ui/react";
-import { collection, getDocs } from "firebase/firestore";
+import { User } from "firebase/auth";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
-type ManagePedalsProps = {};
-
-const ManagePedals: React.FC<ManagePedalsProps> = () => {
+const ManagePedals: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [pedals, setPedals] = useRecoilState(pedalState);
+  const router = useRouter();
 
   const loadPedalsFromFirestore = async () => {
     setLoading(true);
@@ -47,6 +46,39 @@ const ManagePedals: React.FC<ManagePedalsProps> = () => {
     setLoading(false);
   };
 
+  const handleEdit = (pedal: Pedal) => {
+    setPedals((prev) => ({
+      ...prev,
+      selectedPedal: null,
+    }));
+    router.push(`/pedals/${pedal.id}/editPedal`);
+  };
+
+  const handleDelete = async (pedal: Pedal) => {
+    setLoading(true);
+    try {
+      // check for image in db, delete if exists
+      if (pedal.image) {
+        const imageRef = ref(storage, `pedals/${pedal.id}/image`);
+        await deleteObject(imageRef);
+      }
+      // delete pedal from firestore
+      const pedalDocRef = doc(firestore, "pedals", pedal.id!);
+      await deleteDoc(pedalDocRef);
+      // update recoil state
+      setPedals((prev) => ({
+        ...prev,
+        pedals: prev.pedals.filter((item) => item.id !== pedal.id),
+      }));
+    } catch (error: any) {
+      console.log("handleDelete error", error);
+      setError(error.message);
+    }
+    setLoading(false);
+  };
+
+  console.log(pedals.selectedPedal);
+
   useEffect(() => {
     if (pedals.pedals.length <= 0) {
       loadPedalsFromFirestore();
@@ -54,27 +86,84 @@ const ManagePedals: React.FC<ManagePedalsProps> = () => {
   }, []);
 
   return (
-    <Flex justify="center">
-      <Table
-        size="sm"
-        variant="simple"
-        maxWidth="60%"
-        style={{
-          borderCollapse: "separate",
-          borderSpacing: "0 5px",
-        }}
-      >
-        <Tbody>
-          {pedals.pedals.map((item) => (
-            <Tr key={item.id} bg="#22303c" _hover={{ background: "#15202B" }}>
-              <Td border="none">{item.title}</Td>
-              <Td border="none" isNumeric>
-                Edit | Delete
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+    <Flex width="100%" direction="column">
+      <Flex justify="center" pt={2}>
+        <Flex width="60%">
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<SearchIcon color="gray.500" mb={1} />}
+            />
+            <Input
+              placeholder="Search"
+              fontSize="10pt"
+              _placeholder={{ color: "gray.500" }}
+              _hover={{
+                border: "1px solid",
+                borderColor: "brand.200",
+              }}
+              _focus={{
+                outline: "none",
+                border: "1px solid",
+                bg: "#22303c",
+                borderColor: "brand.200",
+              }}
+              height="34px"
+              bg="#22303c"
+              border="none"
+            />
+          </InputGroup>
+        </Flex>
+      </Flex>
+      <Flex justify="center">
+        <Table
+          size="sm"
+          variant="simple"
+          maxWidth="60%"
+          style={{
+            borderCollapse: "separate",
+            borderSpacing: "0 5px",
+          }}
+        >
+          {pedals && (
+            <Tbody>
+              {pedals.pedals.map((item) => (
+                <Tr
+                  key={item.id}
+                  bg="#22303c"
+                  _hover={{ background: "#15202B" }}
+                >
+                  <Td border="none">{item.title}</Td>
+                  <Td border="none" isNumeric>
+                    <Button
+                      size="sm"
+                      height="30px"
+                      marginRight={1}
+                      borderRadius={8}
+                      background="green.500"
+                      _hover={{ background: "green.400" }}
+                      onClick={() => handleEdit(item)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      height="30px"
+                      borderRadius={8}
+                      background="red.500"
+                      _hover={{ background: "red.400" }}
+                      onClick={() => handleDelete(item)}
+                      isLoading={loading}
+                    >
+                      Delete
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          )}
+        </Table>
+      </Flex>
     </Flex>
   );
 };

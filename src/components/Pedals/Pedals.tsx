@@ -36,9 +36,9 @@ const Pedals: React.FC = () => {
   };
 
   useEffect(() => {
-    if (pedals.pedals.length <= 0) {
-      loadPedalsFromFirestore();
-    }
+    // if (pedals.pedals.length <= 0) {
+    loadPedalsFromFirestore();
+    // }
   }, []);
 
   return (

@@ -10,11 +10,18 @@ const AdminPanel: React.FC = () => {
     router.push("/pedals/addPedal");
   };
   return (
-    <Flex borderRadius={2} mb={2} bg="#192734" color="brand.200">
+    <Flex width="243px" borderRadius={2} mb={2} bg="#192734" color="brand.200">
       <Flex margin={3} direction="column" width="100%">
         <Text fontWeight={700}>Admin panel</Text>
 
-        <Button height="25px" width="50%" mb={1} onClick={handleClick}>
+        <Button
+          height="25px"
+          width="50%"
+          mb={1}
+          onClick={() => {
+            router.push("/pedals/addPedal");
+          }}
+        >
           Create Pedal
         </Button>
         <Button

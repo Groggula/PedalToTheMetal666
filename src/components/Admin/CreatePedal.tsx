@@ -1,8 +1,8 @@
 import { Flex, Alert, AlertIcon, Icon, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { IoDocumentText, IoImageOutline } from "react-icons/io5";
-import TabItem from "./TabItem";
-import InputFields from "./PedalForm.tsx/InputFields";
+import TabItem from "../Pedals/TabItem";
+import InputFields from "../Pedals/PedalForm.tsx/InputFields";
 import {
   addDoc,
   collection,
@@ -12,11 +12,12 @@ import {
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { firestore, storage } from "@/src/firebase/config";
-import ImageUpload from "./PedalForm.tsx/ImageUpload";
+import ImageUpload from "../Pedals/PedalForm.tsx/ImageUpload";
 import useSelectFile from "@/src/hooks/useSelectFile";
 import { useRouter } from "next/router";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { Pedal } from "@/src/atoms/pedalsAtom";
+import { Pedal, pedalState } from "@/src/atoms/pedalsAtom";
+import { useRecoilState } from "recoil";
 
 type CreatePedalProps = {
   user: User;
@@ -44,6 +45,7 @@ const CreatePedal: React.FC<CreatePedalProps> = ({ user }) => {
   const [error, setError] = useState(false);
   const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
   const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
+  const [pedals, setPedals] = useRecoilState(pedalState);
   const [textInputs, setTextInputs] = useState({
     title: "",
     effectType: "",
@@ -92,6 +94,9 @@ const CreatePedal: React.FC<CreatePedalProps> = ({ user }) => {
           image: downloadURL,
         });
       }
+      // add code for updating state before pushing to page
+      //
+
       router.push("/pedals");
     } catch (error: any) {
       console.log("handleCreatePedal error", error);

@@ -1,6 +1,6 @@
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
-import { TabItemType } from "./CreatePedal";
+import { TabItemType } from "../Admin/CreatePedal";
 
 type TabItemProps = {
   item: TabItemType;
