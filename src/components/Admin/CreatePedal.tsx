@@ -17,7 +17,7 @@ import useSelectFile from "@/src/hooks/useSelectFile";
 import { useRouter } from "next/router";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { Pedal, pedalState } from "@/src/atoms/pedalsAtom";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 type CreatePedalProps = {
   user: User;
@@ -45,7 +45,7 @@ const CreatePedal: React.FC<CreatePedalProps> = ({ user }) => {
   const [error, setError] = useState(false);
   const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
   const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
-  const [pedals, setPedals] = useRecoilState(pedalState);
+  const setPedalStateValue = useSetRecoilState(pedalState);
   const [textInputs, setTextInputs] = useState({
     title: "",
     effectType: "",
@@ -94,15 +94,17 @@ const CreatePedal: React.FC<CreatePedalProps> = ({ user }) => {
           image: downloadURL,
         });
       }
-      // add code for updating state before pushing to page
-      //
-
-      router.push("/pedals");
+      // add pedal to state value
+      setPedalStateValue((prev) => ({
+        ...prev,
+        pedals: [...prev.pedals, newPedal],
+      }));
     } catch (error: any) {
       console.log("handleCreatePedal error", error);
       setError(error.message);
     }
     setLoading(false);
+    router.push("/pedals");
   };
 
   return (

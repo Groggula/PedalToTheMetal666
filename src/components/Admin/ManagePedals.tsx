@@ -12,7 +12,6 @@ import {
   Td,
   Tr,
 } from "@chakra-ui/react";
-import { User } from "firebase/auth";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { useRouter } from "next/router";
@@ -22,7 +21,7 @@ import { useRecoilState } from "recoil";
 const ManagePedals: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [pedals, setPedals] = useRecoilState(pedalState);
+  const [pedalStateValue, setPedalStateValue] = useRecoilState(pedalState);
   const router = useRouter();
 
   const loadPedalsFromFirestore = async () => {
@@ -34,7 +33,7 @@ const ManagePedals: React.FC = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setPedals((prev) => ({
+      setPedalStateValue((prev) => ({
         ...prev,
         selectedPedal: null,
         pedals: pedals as Pedal[],
@@ -47,7 +46,7 @@ const ManagePedals: React.FC = () => {
   };
 
   const handleEdit = (pedal: Pedal) => {
-    setPedals((prev) => ({
+    setPedalStateValue((prev) => ({
       ...prev,
       selectedPedal: null,
     }));
@@ -66,7 +65,7 @@ const ManagePedals: React.FC = () => {
       const pedalDocRef = doc(firestore, "pedals", pedal.id!);
       await deleteDoc(pedalDocRef);
       // update recoil state
-      setPedals((prev) => ({
+      setPedalStateValue((prev) => ({
         ...prev,
         pedals: prev.pedals.filter((item) => item.id !== pedal.id),
       }));
@@ -77,10 +76,8 @@ const ManagePedals: React.FC = () => {
     setLoading(false);
   };
 
-  console.log(pedals.selectedPedal);
-
   useEffect(() => {
-    if (pedals.pedals.length <= 0) {
+    if (pedalStateValue.pedals.length <= 0) {
       loadPedalsFromFirestore();
     }
   }, []);
@@ -125,9 +122,9 @@ const ManagePedals: React.FC = () => {
             borderSpacing: "0 5px",
           }}
         >
-          {pedals && (
+          {pedalStateValue && (
             <Tbody>
-              {pedals.pedals.map((item) => (
+              {pedalStateValue.pedals.map((item) => (
                 <Tr
                   key={item.id}
                   bg="#22303c"

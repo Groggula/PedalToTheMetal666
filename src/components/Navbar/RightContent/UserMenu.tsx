@@ -22,6 +22,7 @@ import { signOut, User } from "firebase/auth";
 import { auth } from "@/src/firebase/config";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/src/atoms/authModalAtom";
+import Link from "next/link";
 
 type UserMenuProps = {
   user?: User | null;
@@ -29,6 +30,7 @@ type UserMenuProps = {
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const setAuthModalState = useSetRecoilState(authModalState);
+
   return (
     <Menu>
       <MenuButton
@@ -69,17 +71,19 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       <MenuList bg="#192734" border="none">
         {user ? (
           <>
-            <MenuItem
-              fontSize="10pt"
-              fontWeight={700}
-              bg="#192734"
-              _hover={{ bg: "#22303c" }}
-            >
-              <Flex align="center">
-                <Icon fontSize={20} mr={2} as={CgProfile} />
-                Profile
-              </Flex>
-            </MenuItem>
+            <Link href={`/user/${user!.uid}/`}>
+              <MenuItem
+                fontSize="10pt"
+                fontWeight={700}
+                bg="#192734"
+                _hover={{ bg: "#22303c" }}
+              >
+                <Flex align="center">
+                  <Icon fontSize={20} mr={2} as={CgProfile} />
+                  Profile
+                </Flex>
+              </MenuItem>
+            </Link>
             <MenuItem
               fontSize="10pt"
               fontWeight={700}

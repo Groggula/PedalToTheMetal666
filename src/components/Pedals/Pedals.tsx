@@ -5,14 +5,14 @@ import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
-import { fetchPedals } from "./fetchPedals";
+
 import PedalItem from "./PedalItem";
 
 const Pedals: React.FC = () => {
   const [user] = useAuthState(auth);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [pedals, setPedals] = useRecoilState(pedalState);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [pedalStateValue, setPedalStateValue] = useRecoilState(pedalState);
 
   const loadPedalsFromFirestore = async () => {
     setLoading(true);
@@ -23,7 +23,7 @@ const Pedals: React.FC = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setPedals((prev) => ({
+      setPedalStateValue((prev) => ({
         ...prev,
         selectedPedal: null,
         pedals: pedals as Pedal[],
@@ -36,17 +36,21 @@ const Pedals: React.FC = () => {
   };
 
   useEffect(() => {
-    // if (pedals.pedals.length <= 0) {
-    loadPedalsFromFirestore();
-    // }
+    if (pedalStateValue.pedals.length <= 0) {
+      loadPedalsFromFirestore();
+    }
   }, []);
 
   return (
-    <Wrap p={2}>
-      {pedals.pedals.map((item) => (
-        <PedalItem key={item.id} pedal={item} loading={loading} />
-      ))}
-    </Wrap>
+    <>
+      {pedalStateValue && (
+        <Wrap p={2}>
+          {pedalStateValue.pedals.map((item) => (
+            <PedalItem key={item.id} pedal={item} loading={loading} />
+          ))}
+        </Wrap>
+      )}
+    </>
   );
 };
 export default Pedals;

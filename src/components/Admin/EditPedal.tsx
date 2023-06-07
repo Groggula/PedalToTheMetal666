@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pedal } from "@/src/atoms/pedalsAtom";
+import { Pedal, pedalState } from "@/src/atoms/pedalsAtom";
 import { doc, updateDoc } from "firebase/firestore";
 import { firestore, storage } from "@/src/firebase/config";
 import useSelectFile from "@/src/hooks/useSelectFile";
@@ -10,6 +10,7 @@ import TabItem from "../Pedals/TabItem";
 import InputFields from "../Pedals/PedalForm.tsx/InputFields";
 import { useRouter } from "next/router";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import { useRecoilState } from "recoil";
 
 type EditPedalProps = {
   pedal: Pedal;
@@ -18,6 +19,7 @@ type EditPedalProps = {
 const EditPedal: React.FC<EditPedalProps> = ({ pedal }) => {
   const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
   const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
+  const [pedalStateValue, setPedalStateValue] = useRecoilState(pedalState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [editPedal, setEditPedal] = useState(pedal);
@@ -58,15 +60,32 @@ const EditPedal: React.FC<EditPedalProps> = ({ pedal }) => {
           image: downloadURL,
         });
       }
-      // add code for updating state before pushing to page
-      //
-      router.push("/pedals");
+
+      //update state with new values of selected pedal
+      setPedalStateValue((prev) => ({
+        ...prev,
+        pedals: prev.pedals.map((item) => {
+          if (item.id === id) {
+            return {
+              ...pedal,
+              title: editPedal.title,
+              effectType: editPedal.effectType,
+              company: editPedal.company,
+              companyURL: editPedal.companyURL,
+              image: editPedal.image,
+            };
+          } else {
+            return item;
+          }
+        }),
+      }));
     } catch (error: any) {
       console.log("handleEditPedal error", error.message);
       setError(error.message);
     }
 
     setLoading(false);
+    router.push("/pedals");
   };
 
   useEffect(() => {

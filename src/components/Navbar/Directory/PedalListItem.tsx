@@ -1,28 +1,19 @@
-import { Flex, MenuItem, Icon, Image } from "@chakra-ui/react";
+import { Flex, MenuItem, Image, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
-import React, { useState } from "react";
-// import CreateCommunityModal from "../../Modal/CreateCommunity/CreateCommunityModal";
+import React from "react";
 
-type PedalsProps = {};
-
-const PedalListItem: React.FC<PedalsProps> = () => {
-  const [open, setOpen] = useState(false);
+const PedalListItem: React.FC = () => {
   return (
     <>
-      {/* <CreatePedalModal open={open} handleClose={() => setOpen(false)} /> */}
-      <MenuItem
-        width="100%"
-        fontSize="10pt"
-        bg="#192734"
-        _hover={{ bg: "#22303c" }}
-        onClick={() => setOpen(true)}
-      >
-        <Flex align="center">
-          <Image src="/images/effectpedalicon.png" height="20px" mr={2} />
-          <Link href="/pedals">Pedals</Link>
-        </Flex>
-      </MenuItem>
+      <Link href="/pedals">
+        <MenuItem width="100%" bg="#192734" _hover={{ bg: "#22303c" }}>
+          <Flex align="center">
+            <Image src="/images/effectpedalicon.png" height="20px" mr={2} />
+            <Text>Pedals</Text>
+          </Flex>
+        </MenuItem>
+      </Link>
     </>
   );
 };

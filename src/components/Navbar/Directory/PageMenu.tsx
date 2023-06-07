@@ -8,10 +8,10 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import React from "react";
 import { SiApplemusic } from "react-icons/si";
 import PedalListItem from "./PedalListItem";
-import Pedals from "./PedalListItem";
 
 const PageMenu: React.FC = () => {
   return (
@@ -41,8 +41,19 @@ const PageMenu: React.FC = () => {
         </Flex>
       </MenuButton>
       <MenuList bg="#192734" border="none">
+        <Link href="/">
+          <MenuItem
+            width="100%"
+            paddingLeft="40px"
+            bg="#192734"
+            _hover={{ bg: "#22303c" }}
+          >
+            <Text>Home</Text>
+          </MenuItem>
+        </Link>
         <PedalListItem />
-        <MenuItem bg="#192734">Pedal Shootout 2023</MenuItem>
+        <PedalListItem />
+        <PedalListItem />
       </MenuList>
     </Menu>
   );

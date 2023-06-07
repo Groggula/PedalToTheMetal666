@@ -1,9 +1,9 @@
-import { Image } from "@chakra-ui/react";
+import { Flex, Image } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <div>
-      <Image src="/images/largepedalboard.jpg" />
-    </div>
+    <Flex justifyContent="center" marginTop="10px">
+      <Image borderRadius={5} src="/images/largepedalboard.jpg" />
+    </Flex>
   );
 }
