@@ -52,6 +52,7 @@ const CreatePedal: React.FC<CreatePedalProps> = ({ user }) => {
     company: "",
     companyURL: "",
     image: "",
+    price: 0,
   });
 
   const handleTextChange = (
@@ -73,6 +74,7 @@ const CreatePedal: React.FC<CreatePedalProps> = ({ user }) => {
       company: textInputs.company,
       companyURL: textInputs.companyURL,
       image: textInputs.image,
+      price: textInputs.price,
       rating: 0,
       ratingCount: 0,
       createdAt: serverTimestamp() as Timestamp,
@@ -84,7 +86,7 @@ const CreatePedal: React.FC<CreatePedalProps> = ({ user }) => {
         collection(firestore, "pedals"),
         newPedal
       );
-      // check for image, if => upload to storage, then update doc with URL
+      // check for image, if true => upload to storage, then update doc with URL
       if (selectedFile) {
         const imageRef = ref(storage, `pedals/${pedalDocRef.id}/image`);
         await uploadString(imageRef, selectedFile, "data_url");
@@ -147,7 +149,7 @@ const CreatePedal: React.FC<CreatePedalProps> = ({ user }) => {
         )}
       </Flex>
       {error && (
-        <Alert status="error">
+        <Alert bg="red.600" status="error">
           <AlertIcon />
           <Text>Error creating pedal</Text>
         </Alert>

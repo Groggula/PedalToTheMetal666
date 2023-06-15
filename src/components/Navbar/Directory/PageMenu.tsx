@@ -10,8 +10,11 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
+import { CgMusicSpeaker } from "react-icons/cg";
+import { AiOutlineHome } from "react-icons/ai";
 import { SiApplemusic } from "react-icons/si";
-import PedalListItem from "./PedalListItem";
+import { BsMusicNoteList } from "react-icons/bs";
+import DirecotryListItem from "./DirectoryListItem";
 
 const PageMenu: React.FC = () => {
   return (
@@ -41,19 +44,9 @@ const PageMenu: React.FC = () => {
         </Flex>
       </MenuButton>
       <MenuList bg="#192734" border="none">
-        <Link href="/">
-          <MenuItem
-            width="100%"
-            paddingLeft="40px"
-            bg="#192734"
-            _hover={{ bg: "#22303c" }}
-          >
-            <Text>Home</Text>
-          </MenuItem>
-        </Link>
-        <PedalListItem />
-        <PedalListItem />
-        <PedalListItem />
+        <DirecotryListItem icon={AiOutlineHome} link="/" text="Home" />
+        <DirecotryListItem icon={CgMusicSpeaker} link="/pedals" text="Pedals" />
+        <DirecotryListItem icon={BsMusicNoteList} link="/" text="Wishlist" />
       </MenuList>
     </Menu>
   );

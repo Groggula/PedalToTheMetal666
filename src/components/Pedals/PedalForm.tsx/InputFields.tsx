@@ -9,6 +9,7 @@ type InputFieldsProps = {
     company: string;
     companyURL: string;
     image: string;
+    price: number;
   };
   selectedFile?: string;
   onChange: (
@@ -139,6 +140,18 @@ const InputFields: React.FC<InputFieldsProps> = ({
           _placeholder={{ color: "gray.500" }}
         />
       )}
+      <Input
+        name="price"
+        value={textInputs?.price}
+        onChange={onChange}
+        fontSize="10pt"
+        borderRadius={4}
+        placeholder="Price payed in euro"
+        border="none"
+        bg="#22303c"
+        color="white"
+        _placeholder={{ color: "gray.500" }}
+      />
 
       <Flex justify="center">
         <Button

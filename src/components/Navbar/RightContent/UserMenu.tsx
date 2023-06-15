@@ -4,7 +4,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Button,
   Text,
   Flex,
   Icon,
@@ -12,12 +11,9 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { FaRedditSquare } from "react-icons/fa";
 import { VscAccount } from "react-icons/vsc";
-import { GrAdd } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineLogin } from "react-icons/md";
-
 import { signOut, User } from "firebase/auth";
 import { auth } from "@/src/firebase/config";
 import { useSetRecoilState } from "recoil";
@@ -84,17 +80,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                 </Flex>
               </MenuItem>
             </Link>
-            <MenuItem
-              fontSize="10pt"
-              fontWeight={700}
-              bg="#192734"
-              _hover={{ bg: "#22303c" }}
-            >
-              <Flex align="center">
-                <Icon fontSize={20} mr={2} as={GrAdd} />
-                Add Pedal
-              </Flex>
-            </MenuItem>
             <MenuDivider borderColor="brand.200" />
             <MenuItem
               fontSize="10pt"

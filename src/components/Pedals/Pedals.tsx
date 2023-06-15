@@ -1,15 +1,13 @@
 import { Pedal, pedalState } from "@/src/atoms/pedalsAtom";
-import { auth, firestore } from "@/src/firebase/config";
-import { Wrap } from "@chakra-ui/react";
+import { firestore } from "@/src/firebase/config";
+import { Wrap, Text } from "@chakra-ui/react";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
 
 import PedalItem from "./PedalItem";
 
 const Pedals: React.FC = () => {
-  const [user] = useAuthState(auth);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [pedalStateValue, setPedalStateValue] = useRecoilState(pedalState);
@@ -40,15 +38,20 @@ const Pedals: React.FC = () => {
       loadPedalsFromFirestore();
     }
   }, []);
-
   return (
     <>
-      {pedalStateValue && (
-        <Wrap p={2}>
-          {pedalStateValue.pedals.map((item) => (
-            <PedalItem key={item.id} pedal={item} loading={loading} />
-          ))}
-        </Wrap>
+      {!error ? (
+        pedalStateValue && (
+          <Wrap p={2}>
+            {pedalStateValue.pedals.map((item) => (
+              <PedalItem key={item.id} pedal={item} loading={loading} />
+            ))}
+          </Wrap>
+        )
+      ) : (
+        <Text color="red.500" align="center">
+          {error}
+        </Text>
       )}
     </>
   );

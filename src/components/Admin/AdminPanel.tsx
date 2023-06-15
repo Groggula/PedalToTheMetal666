@@ -12,7 +12,9 @@ const AdminPanel: React.FC = () => {
   return (
     <Flex width="243px" borderRadius={2} mb={2} bg="#192734" color="brand.200">
       <Flex margin={3} direction="column" width="100%">
-        <Text fontWeight={700}>Admin panel</Text>
+        <Text fontWeight={700} mb={2}>
+          Settings
+        </Text>
 
         <Button
           height="25px"
@@ -33,9 +35,6 @@ const AdminPanel: React.FC = () => {
           }}
         >
           Pedal list
-        </Button>
-        <Button height="25px" width="50%" onClick={() => {}}>
-          User list
         </Button>
       </Flex>
     </Flex>

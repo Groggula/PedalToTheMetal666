@@ -1,5 +1,5 @@
 import { Pedal, pedalState } from "@/src/atoms/pedalsAtom";
-import { Button, Flex, Image, Stack, Text } from "@chakra-ui/react";
+import { Flex, Image, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -16,14 +16,6 @@ const PedalItem: React.FC<PedalItemProps> = ({ pedal, loading }) => {
   const [selectedPedalState, setSelectedPedalState] =
     useRecoilState(pedalState);
 
-  // const handleEdit = (pedal: Pedal) => {
-  //   setSelectedPedalState((prev) => ({
-  //     ...prev,
-  //     selectedPedalState: null,
-  //   }));
-  //   router.push(`/pedals/${pedal.id}/editPedal`);
-  // };
-
   return (
     <>
       {loading ? (
@@ -33,15 +25,14 @@ const PedalItem: React.FC<PedalItemProps> = ({ pedal, loading }) => {
           height="350px"
           bg="#22303c"
           color="white"
-          width="200px"
-          minWidth="200px"
+          width="185px"
           direction="column"
           margin={1}
           borderRadius={15}
           boxShadow="base"
         >
-          <Flex height="45%" justify="center">
-            <Image src={pedal.image} alt="pedal image not found" />
+          <Flex height="50%" justify="center">
+            <Image margin={3} src={pedal.image} alt="pedal image not found" />
           </Flex>
           <Stack height="50%" margin={3} fontSize="10pt">
             <Text fontSize="12pt" fontWeight={700}>
@@ -49,26 +40,20 @@ const PedalItem: React.FC<PedalItemProps> = ({ pedal, loading }) => {
             </Text>
             <Text>{pedal.effectType}</Text>
             <Text>
-              Rating: &#11088; {pedal.rating} ({pedal.ratingCount})
+              Rating: &#11088; &#11088; &#11088;
+              {/* {pedal.rating} ({pedal.ratingCount}) */}
             </Text>
+            <Text>Price payed: € {pedal.price}</Text>
             <Link href={`${pedal.companyURL}`} target="_blank">
               <Text color="brand.200" _hover={{ textDecoration: "underline" }}>
                 {pedal.company}
               </Text>
             </Link>
-            <Flex justify="center" pt={5} gap="2">
+            {/* <Flex justify="center" pt={5} gap="2">
               <Button height="35px" width="120px">
                 Add to collection
               </Button>
-              {/* <Button
-                onClick={() => handleEdit(pedal)}
-                variant="danger"
-                height="35px"
-                width="100px"
-              >
-                Edit
-              </Button> */}
-            </Flex>
+            </Flex> */}
           </Stack>
         </Flex>
       )}

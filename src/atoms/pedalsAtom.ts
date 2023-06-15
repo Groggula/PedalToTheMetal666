@@ -10,6 +10,7 @@ export type Pedal = {
   companyURL: string;
   image: string;
   effectType: string;
+  price: number;
   rating: number;
   ratingCount: number;
   createdAt: Timestamp;

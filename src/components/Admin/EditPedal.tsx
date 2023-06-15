@@ -42,6 +42,7 @@ const EditPedal: React.FC<EditPedalProps> = ({ pedal }) => {
       company: editPedal.company,
       companyURL: editPedal.companyURL,
       image: editPedal.image,
+      price: editPedal.price,
     };
     setLoading(true);
 
@@ -73,6 +74,7 @@ const EditPedal: React.FC<EditPedalProps> = ({ pedal }) => {
               company: editPedal.company,
               companyURL: editPedal.companyURL,
               image: editPedal.image,
+              price: editPedal.price,
             };
           } else {
             return item;
